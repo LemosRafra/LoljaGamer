@@ -1,5 +1,4 @@
 package com.lemosrafa.lojinhagames.Model;
-
 import java.math.BigDecimal;
 
 import javax.persistence.Entity;
@@ -8,11 +7,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -23,90 +20,44 @@ public class Produto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "Nome é obrigatório!")
-    private String nome;
+    @NotBlank(message = "O atributo Descrição é obrigatorio e não pode conter espaço em branco")
+    @Size(min = 10, max = 1000, message = "O atributo texto deve ter no minímo 10 e no maximo 1000 caracteres!")
+    private String titulo;
 
-    @Size(max=500)
-    private String descricao;
-
-    @NotNull(message = "Console é obrigatório!")
-    private String console;
-
-    private int quantidade;
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING)
-    @NotNull(message = "Preço é obrigatório!")
-    @Positive(message = "O preço deve ser maior do que zero!")
+    @NotBlank(message = "O atributo Preço é obrigatorio e não pode conter espaço em branco")
+    @Size(min = 1, max = 10, message = "Valor Invalido")
     private BigDecimal preco;
-
-    private String foto;
 
     @ManyToOne
     @JsonIgnoreProperties("produto")
     private Categoria categoria;
 
+    @ManyToOne
+    @JsonIgnoreProperties("produto")
+    private Usuario usuario;
+
     public Long getId() {
         return id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
-
-    public String getNome() {
-        return nome;
+    public String getTitulo() {
+        return titulo;
     }
-
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
     }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public String getConsole() {
-        return console;
-    }
-
-    public void setConsole(String console) {
-        this.console = console;
-    }
-
-    public int getQuantidade() {
-        return quantidade;
-    }
-
-    public void setQuantidade(int quantidade) {
-        this.quantidade = quantidade;
-    }
-
     public BigDecimal getPreco() {
         return preco;
     }
-
     public void setPreco(BigDecimal preco) {
         this.preco = preco;
     }
-
-    public String getFoto() {
-        return this.foto;
-    }
-
-    public void setFoto(String foto) {
-        this.foto = foto;
-    }
-
     public Categoria getCategoria() {
         return categoria;
     }
-
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
     }
-
 }
